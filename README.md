@@ -114,33 +114,37 @@ umask # 007
 ```
 
 ### find command
+
 ```
 find directory -option args
 ```
 
 Options:
-` -name pattern`: find files and directories that match pattern
-` -iname pattern`: find files and ignore case
-` -ls`: performs an `ls` on each of the found items
-` -mtime n-days`: find files that n-days old
-` -size num`: find files of size num
-` -newer some_file`: find files that are newer than some_file
-` -exec command {} \;`: run command against all files that are found
+`-name pattern`: find files and directories that match pattern
+`-iname pattern`: find files and ignore case
+`-ls`: performs an `ls` on each of the found items
+`-mtime n-days`: find files that n-days old
+`-size num`: find files of size num
+`-newer some_file`: find files that are newer than some_file
+`-exec command {} \;`: run command against all files that are found
 
 For example,
+
 ```bash
 find /bin -iname "*v"
 find . -mtime -1  # files that were 1 day old
 find . -mtime +10 -mtime -13  # more than 10 days old but less then 13 days old
 find . -iname "*.py" -ls # show ls for everything that ends with .py
-find . -size +1M # files greater than 1MB 
+find . -size +1M # files greater than 1MB
 find . -type d -newer file.txt # find directory that's newer than file.txt
 find . -name "*py" -exec file {} \;  # find every .py file and execute "file" command
 ```
 
 #### locate command
+
 **This does not work for Mac**
 Also there is `locate` command which does the same thing as "find" but faster since it uses index.
+
 ```
 locate .py
 ```
@@ -148,13 +152,95 @@ locate .py
 ### View file
 
 #### cat, more, less, head, tail
+
 ```
 head -10 file.txt
 tail -10 file.txt
 ```
 
 To follow files in real time:
+
 ```
 tail -f file # -f for follow, this will be useful for following logs
+
+```
+
+### sort command
+
+Sort the content and show
+
+```
+cat my-file.txt
+sort my-file.txt # will not actually change the content sort by first column
+sort -u my-file # sort and remove duplicate line
+sort -ru my-file # reverse sort and remove dupes
+sort -u -k2 my-file # sort by second column
+
+```
+
+### tar command
+
+Create a collection of files
+
+```
+tar [-] c|x|t f tarfile [pattern]  # "-" is optional. You don't need to add "-" for options but you can
+```
+
+Create, extract of list contents of a tar archive using pattern, if supplied
+
+- c: create a tar archieve
+- x: extract files from archieve
+- t: display table of contents(list)
+- v: verbose
+- z: Use compression
+- f file: Use this file
+
+```bash
+tar cf mytar.tar mydir  # create a tar file called mytar.tar for mydir
+tar tf mytar.tar  # display the list of directories for .tar file
+tar xvf mytar.tar # extract the content of mytar.tar and put them in current directory, with v for verbose
+```
+
+To save space, gzip the file
+
+- gzip: compress files
+- gunzip: Uncompress files
+- gzcat: contcatenates compressed files
+- zcat: cintatenates compressed files
+
+```
+gzip filename  # will give you filename.gz
+du -h filename.gz  # check the size
+gunzip filename.gz  # unzip it
+
+```
+
+Combine tar and gzip
+
+```
+tar zcf mytar.tgz  mydir  # tar and zip mydir and create a file called mytar.tgz - tgz is a convention, also you might see ".tar.gz" for same thing
+
+```
+
+## Wildcards
+
+- "\*": match everything
+- "?": match one charecter
+- "[]": A character clas
+  - "[aeiou]": match any one of "aeiou". Match only one
+  - "ca[nt]\*: match "can", "cat", "candy", "catch"
+- "[!]": match anything that is not in the bracket. Match one character.
+  - "[!aeiou]\*": will match baseball, criket. Will not match apple, egg
+- A list of named Charater classes:
+  - "[[:alpha:]]" : match all aphpabetic
+  - "[[:alnum:]]" : match alphanumeric
+  - "[[:digit:]]": match all digits
+  - "[[:lower:]]: match all lowercase
+  - "[[space]]": match all spacesm and link breaks
+
+
+```bash
+ls ????.py  # abcd.py, efgh.py will match
+
 
 ```
