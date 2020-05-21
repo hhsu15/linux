@@ -238,9 +238,41 @@ tar zcf mytar.tgz  mydir  # tar and zip mydir and create a file called mytar.tgz
   - "[[:lower:]]: match all lowercase
   - "[[space]]": match all spacesm and link breaks
 
-
 ```bash
 ls ????.py  # abcd.py, efgh.py will match
 
+ls [aeiou]* # list file starting with a, e, i, o, or u
+mv *.py /mydir  # move everything .py to mydir
+```
+
+## Redirection
+
+Standard input(stdin) 0 (number here is called file descriptor)
+Standard output(stdout) 1
+Standard error(stderr) 2
+
+- `>`: redirects stdout to a file, overwrites existing content
+- `>>` redirects stdout to a file, append to existing content
+- `<`: redirects input from a file to a command
+
+You can use `$` to signal that you are using file descriptor.
+
+- `>/dev/null`: redirect output to nowhere. This is called **Null device**
+
+Examples:
+
+```
+ls -l > file.txt  # redirect the output to file.txt
+ls -l >> file.txt # append the output to file.txt
+sort < file.txt  # redirect the file content into the command
+
+# use file descriptor
+ls -l 1> file.txt  # this is really the same as "ls -l > file.txt"
+sort < files.txt > sorted_files.txt # redicrt the output to sorted_files.txt
+
+ls file.txt file_not_exist.txt > out.txt # only file.txt will be redirected to out.txt
+ls file.txt file_not_exist.txt 1>out.txt 2>err.txt # redirect the stderr to err.txt
+ls file.txt file_not_exist.txt > out.both 2>&1 # redirect stderr to stdin
+ls file.txt file_not_exist.txt 2>/dev/null # ignore stderr by sending it to nowhere
 
 ```
