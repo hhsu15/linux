@@ -272,7 +272,7 @@ sort < files.txt > sorted_files.txt # redicrt the output to sorted_files.txt
 
 ls file.txt file_not_exist.txt > out.txt # only file.txt will be redirected to out.txt
 ls file.txt file_not_exist.txt 1>out.txt 2>err.txt # redirect the stderr to err.txt
-ls file.txt file_not_exist.txt > out.both 2>&1 # redirect stderr to stdin
+ls file.txt file_not_exist.txt > out.both 2>&1 # redirect stderr to stdout (basically all to stdout)
 ls file.txt file_not_exist.txt 2>/dev/null # ignore stderr by sending it to nowhere
 
 ```
