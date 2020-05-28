@@ -276,3 +276,218 @@ ls file.txt file_not_exist.txt > out.both 2>&1 # redirect stderr to stdout (basi
 ls file.txt file_not_exist.txt 2>/dev/null # ignore stderr by sending it to nowhere
 
 ```
+
+## Compare two files
+
+Couple options:
+
+- diff file1 file2
+- sdiff file1 file2
+- vimdiff file1 file2 (this is more useful. Use :qa to quite the windows
+
+```bash
+cat -n somefile  # -n will give you line numbe
+
+
+```
+
+## Search in Files and pipes
+
+**This is very important!!!!**
+
+### grep
+
+```bash
+grep pattern file
+```
+
+Options:
+
+- `-i`: ignore care
+- `-c`: count occurences
+- `-n`: precede output with line numbers
+- `-v`: invert match. Print lines that don't match
+
+### Pipes
+
+Chainning things together is very powerful!!
+`|` is the Pipe simbol
+
+Takes the commpand output and pass it as input
+
+```bash
+command-output | command-input
+
+```
+
+Certain commands like grep will allow you to take the stdout thru pipe and use it as stdin, so you can do:
+
+```bash
+
+cat file | grep pattern
+ls *.py | head -1 | xargs cat | grep app # list every python file and take the first one and grep the patern "app"
+```
+
+### Cut content from a file
+
+`cut` command lets you cut the content from a file
+
+Options:
+
+- `-d delimiter`: Use delimiter as field separator
+- `-f N`: Display the Nth field
+
+```bash
+ls |grep .py | head -1 | cut -d. -f1  # list .py files and seprate by "." and only take the first part
+
+```
+
+Put many things together example:
+
+```bash
+
+grep patern myfile | cut -d: -f1,5 | sort | tr ":" " " | column -t # grep the lines with pattern in myfile, separate by ":" and then take the first one and 5th one, then sort it, then trim ":" with " ", then disply as table format
+
+# or an example like this
+cat master.csv | cut -d, -f2,3 | sort | tr "," " " | column -t  # print out the second and third item separated by ",", replace "," with " " and display in table format
+
+```
+
+Use `less` `more` for page view when the output is big
+
+```bash
+
+grep pattern bigfile | less
+```
+
+## Customize shell prompt
+
+How you want to present in your shell prompt. This is customized using:
+
+- for Bash, ksh, sh, use \$PS1
+- for Csh, tcsh, zsh, use \$prompt
+
+Refer to documentation for format for each shell.
+For example, for bash
+
+```
+PS1="\u@\w:"  # give you hsin@~:
+
+```
+
+### Environment variable
+
+You can use `printenv` to list all env variables
+
+You can also use `printenv` to show value of an env
+
+```
+
+printenv PATH # same as echo $PATH
+```
+
+## Process
+
+Use the `ps` command
+
+options:
+
+- `-u`: for user
+- `-e`: to show all process
+- `-f`: better formated result
+
+You can use the `top` command. It will show the process that uses the most CPU
+
+### Background and Foregournd process
+
+- `bg [%num]` - backgounf a suspended process
+- `fg [%num]` - foregound a background process
+- `jobs [%num] - list jobs
+
+Jobs are instance specific. Another terminal will not know the jobs you arunning.
+
+```bash
+jupyter notebook & # run notebook in the background
+jobs # list all the jobs
+jobs %1 # give your job [1]
+jobs %% # give you the current job
+fg %1 # bring it to the foreground
+
+```
+
+Control + Z will stop the job. This is different then Control + C to kill the job. If you stop a job, you have couple of options:
+
+- `fg` it to bring it to foreground to resume or to kill it.
+- `bg %num` to resume in the background
+
+You can kill a job by using
+
+```bash
+kill %num
+```
+
+## Cron
+
+Time based jon scheduling service
+
+`crontab` is the command to create, read, update or delete your job schedule
+
+### Cronformat
+
+Follow by this order
+
+- minute
+- hour
+- day of month
+- month
+- day of the week
+
+For example, `07\*\*1` represents run the task every Monday at 07:00. `\*` means everything for that slot.
+
+Examples:
+```
+# run every 15 mins
+0,15,30,45 * * * * /opt/acme/bin/myprogram
+
+*/15 * * * * /opt/acme/bin/myprogram # does the same thing
+
+0-4 * * * * # run for the first 5 minutes of the hour
+
+```bash
+crontab -l  # list all cron jobs
+crontab filename # will add the cronjob to corontab
+crontab -r # remove cronjobs
+
+```
+
+## Switch User
+
+`whoami` will disply your username
+
+```bash
+sudo su # switch to root account
+exit 
+```
+
+
+## History
+
+You can use `!` to refer to the history.
+
+```bash
+haed files.txt sorted_file.txt
+!! # this will give you the last command, same the upper arrow
+vi !:2  # will become vi sorted_file.txt  It takes the third argument
+```
+
+There is more!
+
+- !^ = !:1   # takes the first argument
+- !$  # represent the last argument
+
+Use `history` to find the commands and use `!` to get it
+```
+history # show all the histories with number
+!number # to get that command. 
+
+```
