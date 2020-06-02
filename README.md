@@ -491,3 +491,44 @@ history # show all the histories with number
 !number # to get that command. 
 
 ```
+
+## alias
+
+```
+alias # will show all the aliases
+alias ll="ls -l" 
+unalia ll  # will delete your alias
+```
+
+## package installation manager for linux distro
+If package is not available in yum, you download the package as rpm file and use the rpm command.
+- yum
+- rpm
+- brew  for mac
+
+
+```
+brew search elasticsearch  # search for the package
+brew info elasticsearch # will give you the info about the package
+
+```
+
+For debian, a populat one is `apt`. If package is not available in apt, you download the `.deb` file and use `dpkg` command to install it. 
+```bash
+apt-cache search string  # search for string
+apt-get install [-y] package # install package
+```
+also you can use the `dpkg` command to interact with the packages
+
+```bash
+dpkg -l  # list installed packages.
+
+dpkg -S /path/to/file  # list file's package
+
+dpkg -L package  # list all files in package
+
+dpkg -i package.deb  # install package
+
+```
+
+
